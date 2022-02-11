@@ -5,10 +5,7 @@ using UnityEngine;
 public class AIMovement : MonoBehaviour
 {
     //Create the variable and place data in the variable, use the variable. :)
-    public GameObject position0;
-    public GameObject position1;
-    
-
+    public GameObject position0, position1;
     
     void Update()
     {
