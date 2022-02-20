@@ -829,11 +829,14 @@ MonoBehaviour:
   - {fileID: 369468163}
   - {fileID: 1138199707}
   player: {fileID: 1191466320}
+  aiColour: {r: 0.7830189, g: 0.040628344, b: 0.20278236, a: 1}
+  aiColour2: {r: 0, g: 0.3372549, b: 1, a: 1}
+  sRender: {fileID: 1876639678}
   waypointIndex0: 0
-  waypointIndex1: 1
   speed: 1.5
   minGoalDistance: 0.01
   chaseDistance: 3.5
+  chased: 0
 --- !u!212 &1876639678
 SpriteRenderer:
   m_ObjectHideFlags: 0

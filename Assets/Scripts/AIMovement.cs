@@ -8,6 +8,11 @@ public class AIMovement : MonoBehaviour
     [Tooltip("The positions the square will go to")]
     public Transform[] waypoints;
     public Transform player;
+    [Header("Colours")]
+    public Color aiColour;
+    public Color aiColour2; 
+    [Header("Sprite Renderer")]
+    public SpriteRenderer sRender; 
     [Header("Values")]
     public int waypointIndex0 = 0;
     //Create the variable and place data in the variable, use the variable. :)
@@ -20,12 +25,14 @@ public class AIMovement : MonoBehaviour
 
     void Update()
     {
+      
         //Are we within the player chase distance
         if (Vector2.Distance(transform.position, player.position) < chaseDistance)
         {
             AIMove(player);
             chased = true;
         }
+
         else
         {
             //The number is called the index
@@ -33,6 +40,14 @@ public class AIMovement : MonoBehaviour
             AIMove(waypoints[waypointIndex0]);
         }
 
+        if (chased)
+        {
+            sRender.color = aiColour;
+        }
+        else
+        {
+            sRender.color = aiColour2;
+        }
         #region Definitions
         // < less than 
         // <= less than or equal
@@ -87,10 +102,14 @@ public class AIMovement : MonoBehaviour
     {
         Vector2 aiTransform = transform.position;
 
+        
         if (chased == true)
         {
+           
+            closestWaypoint = Mathf.Infinity;
             for (int i = 0; i < waypoints.Length; i++)
             {
+                
                 float dist = Vector2.Distance(aiTransform, waypoints[i].position);
                 if (dist < closestWaypoint)
                 {
@@ -99,6 +118,7 @@ public class AIMovement : MonoBehaviour
                     chased = false;
                 }
             }
+           
         }
 
         //If we are near the goal
