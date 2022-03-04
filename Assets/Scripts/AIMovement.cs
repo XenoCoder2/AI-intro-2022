@@ -6,8 +6,9 @@ public class AIMovement : MonoBehaviour
 {
     //An array of GameObjects 
     [Tooltip("The positions the square will go to")]
-    public Transform[] waypoints;
+    public List<Transform> waypoints;
     public Transform player;
+    public GameObject waypointPrefab; 
     [Header("Colours")]
     public Color aiColour;
     public Color aiColour2; 
@@ -23,6 +24,7 @@ public class AIMovement : MonoBehaviour
     public float chaseDistance = 3.5f;
     public bool chased = false;
 
+    /*
     void Update()
     {
       
@@ -57,8 +59,16 @@ public class AIMovement : MonoBehaviour
         // != not equal
         #endregion
     }
+    */
 
-    private void AIMove(Transform goal)
+    public void NewWaypoint()
+    {
+        GameObject newBerry = Instantiate(waypointPrefab, new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f)), Quaternion.identity);
+
+        waypoints.Add(newBerry.transform);
+    }
+
+    public void AIMove(Transform goal)
     {
         Vector2 aiTransform = transform.position;
         #region commented out code!!
@@ -98,7 +108,8 @@ public class AIMovement : MonoBehaviour
 
     }
 
-    private void WaypointUpdate()
+    //array.Length = List.Count
+    public void WaypointUpdate()
     {
         Vector2 aiTransform = transform.position;
 
@@ -107,7 +118,7 @@ public class AIMovement : MonoBehaviour
         {
            
             closestWaypoint = Mathf.Infinity;
-            for (int i = 0; i < waypoints.Length; i++)
+            for (int i = 0; i < waypoints.Count; i++)
             {
                 
                 float dist = Vector2.Distance(aiTransform, waypoints[i].position);
@@ -118,7 +129,7 @@ public class AIMovement : MonoBehaviour
                     chased = false;
                 }
             }
-           
+            NewWaypoint();
         }
 
         //If we are near the goal
@@ -126,7 +137,7 @@ public class AIMovement : MonoBehaviour
         {
             waypointIndex0++;
 
-            if (waypointIndex0 >= waypoints.Length)
+            if (waypointIndex0 >= waypoints.Count)
             {
                 waypointIndex0 = 0;
             }
