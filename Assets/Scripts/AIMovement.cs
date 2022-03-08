@@ -23,11 +23,23 @@ public class AIMovement : MonoBehaviour
     private float closestWaypoint = Mathf.Infinity;
     public float chaseDistance = 3.5f;
     public bool chased = false;
+    public static bool defending; 
+    private float timer = 1.5f; 
 
-    /*
+    
     void Update()
     {
-      
+        if (defending)
+        {
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                NewWaypoint();
+                timer = 1.5f; 
+            }
+        }
+
+        /*
         //Are we within the player chase distance
         if (Vector2.Distance(transform.position, player.position) < chaseDistance)
         {
@@ -58,8 +70,9 @@ public class AIMovement : MonoBehaviour
         // == equals
         // != not equal
         #endregion
+        */
     }
-    */
+
 
     public void NewWaypoint()
     {
@@ -100,11 +113,29 @@ public class AIMovement : MonoBehaviour
         //If we are near the goal, stop!
         if (Vector2.Distance(aiTransform, goal.position) > minGoalDistance)
         {
-            Vector2 directionToGoal = goal.transform.position - transform.position;
+            Vector2 directionToGoal = goal.position - transform.position;
             directionToGoal.Normalize();
             transform.position += (Vector3)directionToGoal * 1 * Time.deltaTime;
 
         }
+
+    }
+
+    public void AIDefence (Transform moveAway)
+    {
+        if (Vector2.Distance(transform.position, moveAway.position) <= 3.5f) 
+        {
+            Vector2 defenceMove = moveAway.position - transform.position;
+            defenceMove.Normalize();
+            transform.position -= (Vector3)defenceMove * 2 * Time.deltaTime; 
+        }
+    }
+
+    public void AIRun (Transform runAway)
+    {
+        Vector2 runMove = runAway.position - transform.position;
+        runMove.Normalize();
+        transform.position -= (Vector3)runMove * 2.5f * Time.deltaTime; 
 
     }
 
@@ -129,12 +160,15 @@ public class AIMovement : MonoBehaviour
                     chased = false;
                 }
             }
-            NewWaypoint();
+          
         }
 
         //If we are near the goal
         if (Vector2.Distance(aiTransform, waypoints[waypointIndex0].position) < minGoalDistance)
         {
+           
+            Destroy(waypoints[waypointIndex0].gameObject);
+            waypoints.RemoveAt(waypointIndex0);
             waypointIndex0++;
 
             if (waypointIndex0 >= waypoints.Count)
@@ -143,6 +177,7 @@ public class AIMovement : MonoBehaviour
             }
 
             
+
         }
     }
 }

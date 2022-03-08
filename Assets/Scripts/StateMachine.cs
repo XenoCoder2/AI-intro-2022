@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AIMovement))]
 public class StateMachine : MonoBehaviour
 {
     //A comma separated list of identifiers
@@ -84,7 +85,11 @@ public class StateMachine : MonoBehaviour
             {
                 currentState = State.BerryPicking; 
             }
-            
+
+            if (Switch.active)
+            {
+                currentState = State.Run;
+            }
 
             yield return null;
 
@@ -96,13 +101,26 @@ public class StateMachine : MonoBehaviour
     private IEnumerator DefenceState()
     {
         Debug.Log("Defence: Enter");
+        AIMovement.defending = true; 
         while (currentState == State.Defence)
         {
-            Debug.Log("Currently Defending");
+            //The AI should move away from the player when the player is close. 
+            aiMovement.AIDefence(aiMovement.player.transform);
+
+            if (aiMovement.waypoints.Count == 5)
+            {
+                currentState = State.BerryPicking;
+            }
+
+            if (Switch.active)
+            {
+                currentState = State.Run;
+            }
 
             yield return null;
 
         }
+        AIMovement.defending = false; 
         Debug.Log("Defence: Exit");
 
         NextState();
@@ -112,7 +130,20 @@ public class StateMachine : MonoBehaviour
         Debug.Log("Run: Enter");
         while (currentState == State.Run)
         {
-            Debug.Log("Currently Running");
+            if (!Switch.active)
+            {
+                if (aiMovement.waypoints.Count >= 1)
+                {
+                    currentState = State.BerryPicking;
+                }
+                else
+                {
+                    currentState = State.Defence;
+                }
+                
+            }
+
+            aiMovement.AIRun(aiMovement.player.transform);
 
             yield return null;
 
@@ -129,13 +160,25 @@ public class StateMachine : MonoBehaviour
         while (currentState == State.BerryPicking)
         {
             aiMovement.WaypointUpdate();
-            aiMovement.AIMove(aiMovement.waypoints[aiMovement.waypointIndex0]);
+
+            if (Switch.active)
+            {
+                currentState = State.Run;
+            }
+
+            if (aiMovement.waypoints.Count != 0)
+            {
+                aiMovement.AIMove(aiMovement.waypoints[aiMovement.waypointIndex0]);
+            }
+            else
+            {
+                currentState = State.Defence;
+            }
 
             if (Vector2.Distance(transform.position, aiMovement.player.position) < aiMovement.chaseDistance)
             {
                 currentState = State.Attack;
             }
-            
 
             yield return null;
 
@@ -145,3 +188,4 @@ public class StateMachine : MonoBehaviour
         NextState();
     }
 }
+    
