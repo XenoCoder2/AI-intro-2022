@@ -127,7 +127,7 @@ public class AIMovement : MonoBehaviour
         {
             Vector2 defenceMove = moveAway.position - transform.position;
             defenceMove.Normalize();
-            transform.position -= (Vector3)defenceMove * 2 * Time.deltaTime; 
+            transform.position -= (Vector3)defenceMove * 3 * Time.deltaTime; 
         }
     }
 
