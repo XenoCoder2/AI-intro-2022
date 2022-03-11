@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaseManager : MonoBehaviour
+public abstract class BaseManager : MonoBehaviour
 {
     //Protected is basically private, but inherited classes also have access to it
     [SerializeField] protected float _health = 100;
@@ -12,9 +12,16 @@ public class BaseManager : MonoBehaviour
 
     [SerializeField] protected int _defence = 5;
 
-    [SerializeField] protected Text _healthText; 
+    [SerializeField] protected Text _healthText;
 
-    private float defenceTimer = 30f; 
+    //Virtual allows the function to be "overridden" by child classes
+    //override replaces parent class' function (must be marked virtual)
+    protected virtual void Start()
+    {
+        UpdateHealthText();
+    }
+
+    private float defenceTimer = 30f;
 
     public void UpdateHealthText()
     {
@@ -24,6 +31,10 @@ public class BaseManager : MonoBehaviour
         }
        
     }
+
+    //Abstract classes cannot be used, only children of abstract classes
+    //Abstract function (inside an abstract class) has to be implemented by child classes
+    public abstract void TakeTurn();
 
     public void Heal(float heal)
     {
@@ -43,6 +54,7 @@ public class BaseManager : MonoBehaviour
         UpdateHealthText();
     }
 
+    /*
     private IEnumerator HealOverTime (float waitTime)
     {
         for (int i = 0; i < 3; i++)
@@ -52,6 +64,7 @@ public class BaseManager : MonoBehaviour
         }
 
     }
+    */
 
     public void LowerDefence(int defence)
     {
