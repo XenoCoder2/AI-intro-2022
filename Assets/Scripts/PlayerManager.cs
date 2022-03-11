@@ -9,6 +9,9 @@ public class PlayerManager : BaseManager
     protected int berryPoints = 50;
     public Text _bpText;
     [SerializeField] protected CanvasGroup _canGroup;
+    private float attackDamage = 15f;
+    private float defaultDamage = 15f;
+    private int turnsUntilNormalDamage = 4;
 
     protected override void Start()
     {
@@ -30,8 +33,11 @@ public class PlayerManager : BaseManager
     {
         _canGroup.interactable = false;
         _aiManager.TakeTurn();
-
+        defenceReturn();
+        returnDamage();
     }
+
+    
 
     private void UpdateBP()
     {
@@ -63,7 +69,7 @@ public class PlayerManager : BaseManager
         if (berryPoints >= 5)
         {
             float critDamage = Random.Range(0, 5);
-            _aiManager.DealDamage(15f + critDamage);
+            _aiManager.DealDamage(attackDamage + critDamage);
             Debug.Log(10 + critDamage);
             berryPoints -= 5;
             UpdateBP();
@@ -79,7 +85,7 @@ public class PlayerManager : BaseManager
     {
         if (berryPoints >= 10)
         {
-            _aiManager.DealDamage(25f);
+            _aiManager.DealDamage(attackDamage + 10f);
             berryPoints -= 10;
             UpdateBP();
             EndTurn();
@@ -118,5 +124,31 @@ public class PlayerManager : BaseManager
 
     }
 
-    
+    public void recoverBP(int bpAmount)
+    {
+        berryPoints = Mathf.Min(berryPoints + bpAmount, 50);
+        UpdateBP();
+    }
+
+    public void increaseDamage(float damageIncrease)
+    {
+        attackDamage = attackDamage + (attackDamage / damageIncrease);
+
+    }
+
+    public void returnDamage()
+    {
+        if (attackDamage > 15f)
+        {
+            turnsUntilNormalDamage--; 
+        }
+
+        if (turnsUntilNormalDamage <= 0)
+        {
+            attackDamage = defaultDamage;
+            Debug.Log("Attack was reverted to the default value");
+        }
+
+    }    
+
 }

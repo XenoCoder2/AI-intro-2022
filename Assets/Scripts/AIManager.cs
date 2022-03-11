@@ -55,7 +55,11 @@ public class AIManager : PlayerManager
     IEnumerator TurnEnd()
     {
         yield return new WaitForSeconds(2f);
+        defenceReturn();
+        _pMan.defenceReturn();
+        _pMan.returnDamage();
         _pMan.TakeTurn();
+       
     }
     void FullHPState()
     {

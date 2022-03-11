@@ -14,14 +14,14 @@ public abstract class BaseManager : MonoBehaviour
 
     [SerializeField] protected Text _healthText;
 
+    [SerializeField] protected int turnsTillNormalDefence = 6;
+
     //Virtual allows the function to be "overridden" by child classes
     //override replaces parent class' function (must be marked virtual)
     protected virtual void Start()
     {
         UpdateHealthText();
     }
-
-    private float defenceTimer = 30f;
 
     public void UpdateHealthText()
     {
@@ -80,19 +80,28 @@ public abstract class BaseManager : MonoBehaviour
 
     }
 
-    private void Update()
+    public void defenceReturn()
     {
-
         if (_defence <= 4)
         {
-            defenceTimer -= Time.deltaTime;
+            turnsTillNormalDefence--;
         }
 
-        if (defenceTimer <= 0)
+        if (turnsTillNormalDefence <= 0)
         {
-            normaliseDefence();
-            defenceTimer = 30f; 
+            _defence = 5;
+            turnsTillNormalDefence = 3;
+        }
+
+        if (_defence > 5)
+        {
+            turnsTillNormalDefence = 4;
+            turnsTillNormalDefence--;
         }
     }
 
+    public void increaseDefence(int defenceIncrease)
+    {
+        _defence = Mathf.Min(_defence + defenceIncrease, 10);
+    }    
 }
