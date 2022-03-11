@@ -12,7 +12,7 @@ public class MatchEvents : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        eventText.text = "A wild Brungleberry has appeared!";
+        eventText.text = "A wild Blungerberry has appeared!";
     }
 
     // Update is called once per frame
