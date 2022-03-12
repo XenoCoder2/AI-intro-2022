@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SatchelManager : MonoBehaviour
 {
+    #region Variables
     public Text descriptionText;
     public GameObject currentButton;
     private GameObject _lastButton;
@@ -12,6 +13,7 @@ public class SatchelManager : MonoBehaviour
     public PlayerManager playerMan;
     public Color32 selectedColour;
     public MatchEvents events;
+    #endregion
 
     public enum Item
     {
@@ -25,23 +27,30 @@ public class SatchelManager : MonoBehaviour
 
     public void ChangeItem(GameObject clickedButton)
     {
+        //If the last button variable is not null..
         if (_lastButton != null)
         {
+            //Get the Image component and change the colour to 255,255,255,255 (white)
             _lastButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
 
+        //Change the currentButton variable to the clickedButton GameObject
         currentButton = clickedButton;
 
         if (clickedButton != null)
         {
+            //Set _lastButton to the clickedButton, this will be used to revert the colours back to white after another button is clicked
              _lastButton = clickedButton;
 
+            //Change the current button to the selected button colour
             clickedButton.GetComponent<Image>().color = selectedColour;
 
+            //Find the right item to display from the itemsList array
             for (int i = 0; i < itemsList.Length; i++)
             {
                 if (itemsList[i] == currentButton)
                 {
+                    //Change the satchelItem to the appropriate item
                     satchelItem = (Item)i;
                 }
             }
@@ -75,7 +84,8 @@ public class SatchelManager : MonoBehaviour
         
 
     }
-
+    #region IEnumerator Methods
+    //The IEnumerators will change the description text to the appropriate item description
     IEnumerator GBerry()
     {
         descriptionText.text = "The Golden Berry is a legendary one-of-a-kind fruit that only grows once every 5000 years. It will restore the HP of any Bermon by 50% of their original value.";
@@ -104,9 +114,11 @@ public class SatchelManager : MonoBehaviour
        
         yield return null; 
     }
+    #endregion
 
     public void Use()
     {
+        //Depending on what item was clicked, switch between the use cases
         switch (satchelItem)
         {
             case Item.GoldenBerry:
@@ -119,7 +131,7 @@ public class SatchelManager : MonoBehaviour
                 break;
             case Item.BartholomewsBerryMix:
                 events.eventMessages = Cases.BartholomewsBerryMix;
-                playerMan.increaseDefence(2);
+                playerMan.IncreaseDefence(2);
                 break;
             case Item.BoysenberryPunch:
                 events.eventMessages = Cases.BoysenberryPunch;
@@ -130,6 +142,7 @@ public class SatchelManager : MonoBehaviour
                 break;
         }
 
+        //End the turn
         StartCoroutine(playerMan.EndTurn());
     }    
 

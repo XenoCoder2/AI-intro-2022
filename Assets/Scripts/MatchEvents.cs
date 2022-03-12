@@ -130,6 +130,7 @@ public class MatchEvents : MonoBehaviour
 
 
 }
+//By placing the enum outside of the script class it will be able to be accessed by other scripts without a reference to Match Events
 public enum Cases
 {
     BermonIntroduction,

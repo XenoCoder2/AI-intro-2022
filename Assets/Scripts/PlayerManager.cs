@@ -52,7 +52,7 @@ public class PlayerManager : BaseManager
         matchEvent.TextChange();
         yield return new WaitForSeconds(2f);
         _aiManager.TakeTurn();
-        defenceReturn();
+        DefenceReturn();
         ReturnDamage();
        
     }
@@ -86,6 +86,7 @@ public class PlayerManager : BaseManager
         {
             Debug.Log("Not enough BP to perform this action!");
             matchEvent.eventMessages = Cases.NoBP;
+            matchEvent.TextChange();
         }
         
     }
@@ -106,6 +107,7 @@ public class PlayerManager : BaseManager
         {
             Debug.Log("Not enough BP to perform this action!");
             matchEvent.eventMessages = Cases.NoBP;
+            matchEvent.TextChange();
         }
     }
 
@@ -123,6 +125,7 @@ public class PlayerManager : BaseManager
         {
             Debug.Log("Not enough BP to perform this action!");
             matchEvent.eventMessages = Cases.NoBP;
+            matchEvent.TextChange();
         }
 
     }
@@ -152,6 +155,7 @@ public class PlayerManager : BaseManager
         {
             Debug.Log("Not enough BP to perform this action!");
             matchEvent.eventMessages = Cases.NoBP;
+            matchEvent.TextChange();
         }
       
 

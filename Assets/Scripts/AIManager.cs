@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIManager : PlayerManager
 {
+    //Different States of the AI
    public enum State
     {
         FullHP,
@@ -16,13 +17,16 @@ public class AIManager : PlayerManager
 
     private PlayerManager _pMan;
 
+    //The scenario int will help determine whos turn it is and display the correct match event
     [Header("Scenario for Match Events")]
     public int scenario;
 
     protected override void Start()
     {
+        //Performs the Start actions from the inherited class
         base.Start();
 
+        //Gets the PlayerManager
         _pMan = GetComponent<PlayerManager>();
     }
 
@@ -36,6 +40,7 @@ public class AIManager : PlayerManager
 
         scenario = 1;
 
+        //Depending on the currentState of the AI
         switch (currentState)
         {
             case State.FullHP:
@@ -60,9 +65,9 @@ public class AIManager : PlayerManager
     {
         matchEvent.TextChange();
         yield return new WaitForSeconds(2f);
-        defenceReturn();
+        DefenceReturn();
         scenario = 0;
-        _pMan.defenceReturn();
+        _pMan.DefenceReturn();
         _pMan.ReturnDamage();
         _pMan.TakeTurn();
        
@@ -139,10 +144,10 @@ public class AIManager : PlayerManager
 
         switch (randomAttack)
         {
-            case int i when i >= 0 && i <= 2:
+            case int i when i >= 0 && i <= 3:
                 ThrowBerry();
                 break;
-            case int i when i >= 3 && i <= 6:
+            case int i when i >= 4 && i <= 6:
                 StealLife();
                 break;
             case int i when i >= 7 && i <= 8:

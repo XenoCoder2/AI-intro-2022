@@ -77,14 +77,14 @@ public abstract class BaseManager : MonoBehaviour
 
     }
 
-    public void normaliseDefence()
+    public void NormaliseDefence()
     {
         _defence = 5;
         Debug.Log("Defence has reverted to normal");
 
     }
 
-    public void defenceReturn()
+    public void DefenceReturn()
     {
         if (_defence <= 4)
         {
@@ -104,7 +104,7 @@ public abstract class BaseManager : MonoBehaviour
         }
     }
 
-    public void increaseDefence(int defenceIncrease)
+    public void IncreaseDefence(int defenceIncrease)
     {
         _defence = Mathf.Min(_defence + defenceIncrease, 10);
     }    

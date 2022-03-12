@@ -115,7 +115,7 @@ public class AIMovement : MonoBehaviour
         {
             Vector2 directionToGoal = goal.position - transform.position;
             directionToGoal.Normalize();
-            transform.position += (Vector3)directionToGoal * 1 * Time.deltaTime;
+            transform.position += 1 * Time.deltaTime * (Vector3)directionToGoal;
 
         }
 
@@ -127,7 +127,7 @@ public class AIMovement : MonoBehaviour
         {
             Vector2 defenceMove = moveAway.position - transform.position;
             defenceMove.Normalize();
-            transform.position -= (Vector3)defenceMove * 3 * Time.deltaTime; 
+            transform.position -= 3 * Time.deltaTime * (Vector3)defenceMove; 
         }
     }
 
@@ -135,7 +135,7 @@ public class AIMovement : MonoBehaviour
     {
         Vector2 runMove = runAway.position - transform.position;
         runMove.Normalize();
-        transform.position -= (Vector3)runMove * 2.5f * Time.deltaTime; 
+        transform.position -= 2.5f * Time.deltaTime * (Vector3)runMove; 
 
     }
 
