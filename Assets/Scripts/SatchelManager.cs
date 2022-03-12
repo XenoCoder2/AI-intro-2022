@@ -11,6 +11,7 @@ public class SatchelManager : MonoBehaviour
     public GameObject[] itemsList;
     public PlayerManager playerMan;
     public Color32 selectedColour;
+    public MatchEvents events;
 
     public enum Item
     {
@@ -78,6 +79,7 @@ public class SatchelManager : MonoBehaviour
     IEnumerator GBerry()
     {
         descriptionText.text = "The Golden Berry is a legendary one-of-a-kind fruit that only grows once every 5000 years. It will restore the HP of any Bermon by 50% of their original value.";
+        
         yield return null;
 
     }
@@ -85,18 +87,21 @@ public class SatchelManager : MonoBehaviour
     IEnumerator CJuice()
     {
         descriptionText.text = "Ultra-powerful Cranberry Juice squeezed from the mountains beyond where an ancient berry dragon lives. It will restore the BP of any Bermon by 25 BP.";
+       
         yield return null;
     }
 
     IEnumerator BBM()
     {
         descriptionText.text = "A berry bonanza capable of temporarily increasing the defence of any Bermon for Two Turns.";
+       
         yield return null;
     }
 
     IEnumerator BP()
     {
         descriptionText.text = "A powerful Boysenberry Punch that increases a Bermons attack power by 10% of their attack for Two Turns.";
+       
         yield return null; 
     }
 
@@ -105,25 +110,27 @@ public class SatchelManager : MonoBehaviour
         switch (satchelItem)
         {
             case Item.GoldenBerry:
-                playerMan.Heal(float.MaxValue / 2);
+                events.eventMessages = Cases.GoldenBerry;
+                playerMan.Heal(100 / 2);
                 break;
             case Item.CranberryJuice:
-                playerMan.recoverBP(25);
+                events.eventMessages = Cases.CranberryJuice;
+                playerMan.RecoverBP(25);
                 break;
             case Item.BartholomewsBerryMix:
+                events.eventMessages = Cases.BartholomewsBerryMix;
                 playerMan.increaseDefence(2);
                 break;
             case Item.BoysenberryPunch:
-                playerMan.increaseDamage(10);
+                events.eventMessages = Cases.BoysenberryPunch;
+                playerMan.IncreaseDamage(10);
                 break;
             default:
                 Debug.Log("No Item Selected");
                 break;
         }
 
-        playerMan.EndTurn();
-
-
+        StartCoroutine(playerMan.EndTurn());
     }    
 
 }

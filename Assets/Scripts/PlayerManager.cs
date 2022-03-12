@@ -5,13 +5,21 @@ using UnityEngine.UI;
 
 public class PlayerManager : BaseManager
 {
+    [Header("AI Manager")]
     protected AIManager _aiManager;
     protected int berryPoints = 50;
+    [Header("Berry Points Text | Leave blank for AI Manager")]
     public Text _bpText;
+    [Header("Canvas Group")]
     [SerializeField] protected CanvasGroup _canGroup;
+    [Header("Attack Values")]
     private float attackDamage = 15f;
     private float defaultDamage = 15f;
     private int turnsUntilNormalDamage = 4;
+    [Header("Animator")]
+    public Animator characterAnim;
+    [Header("Match Events for text box")]
+    public MatchEvents matchEvent;
 
     protected override void Start()
     {
@@ -26,18 +34,34 @@ public class PlayerManager : BaseManager
 
     public override void TakeTurn()
     {
-        _canGroup.interactable = true;
+        if (_health > 0)
+        {
+            _canGroup.interactable = true;
+           
+        }
+        else
+        {
+            DeadPlayer();
+        }
+        
     }
 
-    public void EndTurn()
+    public IEnumerator EndTurn()
     {
         _canGroup.interactable = false;
+        matchEvent.TextChange();
+        yield return new WaitForSeconds(2f);
         _aiManager.TakeTurn();
         defenceReturn();
-        returnDamage();
+        ReturnDamage();
+       
     }
 
-    
+    public void DeadPlayer()
+    {
+        characterAnim.SetBool("IsDead", true);
+
+    }
 
     private void UpdateBP()
     {
@@ -54,12 +78,14 @@ public class PlayerManager : BaseManager
             _aiManager.DealDamage(heal);
             Debug.Log(heal);
             berryPoints -= 15;
+            matchEvent.eventMessages = Cases.LifeSteal;
             UpdateBP();
-            EndTurn();
+            StartCoroutine(EndTurn());
         }
         else
         {
             Debug.Log("Not enough BP to perform this action!");
+            matchEvent.eventMessages = Cases.NoBP;
         }
         
     }
@@ -72,12 +98,14 @@ public class PlayerManager : BaseManager
             _aiManager.DealDamage(attackDamage + critDamage);
             Debug.Log(10 + critDamage);
             berryPoints -= 5;
+            matchEvent.eventMessages = Cases.BerryThrow;
             UpdateBP();
-            EndTurn();
+            StartCoroutine(EndTurn());
         }
         else
         {
             Debug.Log("Not enough BP to perform this action!");
+            matchEvent.eventMessages = Cases.NoBP;
         }
     }
 
@@ -87,12 +115,14 @@ public class PlayerManager : BaseManager
         {
             _aiManager.DealDamage(attackDamage + 10f);
             berryPoints -= 10;
+            matchEvent.eventMessages = Cases.BerryCrunch;
             UpdateBP();
-            EndTurn();
+            StartCoroutine(EndTurn());
         }
         else
         {
             Debug.Log("Not enough BP to perform this action!");
+            matchEvent.eventMessages = Cases.NoBP;
         }
 
     }
@@ -106,37 +136,40 @@ public class PlayerManager : BaseManager
             if (chance == 2 && _defence != 0)
             {
                 _aiManager.LowerDefence(1);
+                matchEvent.eventMessages = Cases.Gnarl;
                 Debug.Log("Defence was lowered to:" + _aiManager._defence);
             }
             else
             {
+                matchEvent.eventMessages = Cases.MissedAttack;
                 Debug.Log("The attack missed!");
             }
             berryPoints -= 5;
             UpdateBP();
-            EndTurn();
+            StartCoroutine(EndTurn());
         }
         else
         {
             Debug.Log("Not enough BP to perform this action!");
+            matchEvent.eventMessages = Cases.NoBP;
         }
       
 
     }
 
-    public void recoverBP(int bpAmount)
+    public void RecoverBP(int bpAmount)
     {
         berryPoints = Mathf.Min(berryPoints + bpAmount, 50);
         UpdateBP();
     }
 
-    public void increaseDamage(float damageIncrease)
+    public void IncreaseDamage(float damageIncrease)
     {
-        attackDamage = attackDamage + (attackDamage / damageIncrease);
+        attackDamage += (attackDamage / damageIncrease);
 
     }
 
-    public void returnDamage()
+    public void ReturnDamage()
     {
         if (attackDamage > 15f)
         {

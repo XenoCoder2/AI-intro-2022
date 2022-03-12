@@ -12,9 +12,12 @@ public class AIManager : PlayerManager
         Dead
     }
 
-    public State currentState;
+    public static State currentState;
 
     private PlayerManager _pMan;
+
+    [Header("Scenario for Match Events")]
+    public int scenario;
 
     protected override void Start()
     {
@@ -28,9 +31,12 @@ public class AIManager : PlayerManager
         if (_health <= 0f)
         {
             currentState = State.Dead;
+            matchEvent.TextChange();
         }
 
-        switch(currentState)
+        scenario = 1;
+
+        switch (currentState)
         {
             case State.FullHP:
                 FullHPState();
@@ -48,16 +54,16 @@ public class AIManager : PlayerManager
                 Dead();
                 break;
         }
-
-        
     }
 
     IEnumerator TurnEnd()
     {
+        matchEvent.TextChange();
         yield return new WaitForSeconds(2f);
         defenceReturn();
+        scenario = 0;
         _pMan.defenceReturn();
-        _pMan.returnDamage();
+        _pMan.ReturnDamage();
         _pMan.TakeTurn();
        
     }
@@ -117,6 +123,12 @@ public class AIManager : PlayerManager
             FullHPState();
             return;
         }
+        else if (_health < 40f)
+        {
+            currentState = State.LowHP;
+            LowHPState();
+            return;
+        }
 
     }
 
@@ -154,6 +166,8 @@ public class AIManager : PlayerManager
     void Dead()
     {
         Debug.Log("Brungleberry defeated!");
+        matchEvent.eventMessages = Cases.BermonFainted;
+        characterAnim.SetBool("IsDead", true);
     }
 
     public void StealLife()
@@ -161,6 +175,7 @@ public class AIManager : PlayerManager
         float heal = Random.Range(10, 25);
         _aiManager.Heal(heal);
         _pMan.DealDamage(heal);
+        matchEvent.eventMessages = Cases.LifeSteal;
         Debug.Log("StealLife " + heal);
 
     }
@@ -168,6 +183,7 @@ public class AIManager : PlayerManager
     public void ThrowBerry()
     {
         float critDamage = Random.Range(0, 5);
+        matchEvent.eventMessages = Cases.BerryThrow;
         _pMan.DealDamage(15f + critDamage);
         Debug.Log(10 + critDamage + " | AI");
 
@@ -177,6 +193,7 @@ public class AIManager : PlayerManager
     public void Crunch()
     {
         _pMan.DealDamage(25f);
+        matchEvent.eventMessages = Cases.BerryCrunch;
         Debug.Log("Crunch was used on player");
         
 
@@ -189,10 +206,12 @@ public class AIManager : PlayerManager
         if (chance == 2 && _defence != 0)
         {
             _pMan.LowerDefence(1);
+            matchEvent.eventMessages = Cases.Gnarl;
             Debug.Log("Lowered defence of player");
         }
         else
         {
+            matchEvent.eventMessages = Cases.MissedAttack;
             Debug.Log("The attack missed!");
         }
        

@@ -1871,6 +1871,8 @@ MonoBehaviour:
   turnsTillNormalDefence: 6
   _bpText: {fileID: 543571305}
   _canGroup: {fileID: 1645499624}
+  characterAnim: {fileID: 1110554799}
+  matchEvent: {fileID: 550556027}
 --- !u!114 &550556025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1890,7 +1892,9 @@ MonoBehaviour:
   turnsTillNormalDefence: 6
   _bpText: {fileID: 0}
   _canGroup: {fileID: 1104358558}
-  currentState: 0
+  characterAnim: {fileID: 1628520432}
+  matchEvent: {fileID: 550556027}
+  scenario: 0
 --- !u!114 &550556026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1914,6 +1918,7 @@ MonoBehaviour:
   selectedColour:
     serializedVersion: 2
     rgba: 4281117974
+  events: {fileID: 550556027}
   satchelItem: 0
 --- !u!114 &550556027
 MonoBehaviour:
@@ -1930,6 +1935,7 @@ MonoBehaviour:
   eventText: {fileID: 2102980737}
   playMan: {fileID: 550556024}
   aiMan: {fileID: 550556025}
+  eventMessages: 0
 --- !u!1 &598251559
 GameObject:
   m_ObjectHideFlags: 0
@@ -4742,7 +4748,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -9.2011}
+  m_AnchoredPosition: {x: 0, y: -9.201111}
   m_SizeDelta: {x: 0, y: -18.402}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1367689600

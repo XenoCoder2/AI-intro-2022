@@ -22,7 +22,7 @@ public class StateMachine : MonoBehaviour
         aiMovement = GetComponent<AIMovement>();
         NextState();
 
-        Addition(Random.Range(0, 100), Random.Range(0, 100));
+        //Addition(Random.Range(0, 100), Random.Range(0, 100));
     }
 
     private void NextState()
@@ -45,6 +45,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    /*
     private int Addition(int a, int b)
     {
         int answer = a + b;
@@ -52,6 +53,7 @@ public class StateMachine : MonoBehaviour
         return answer;
        
     }
+    */
 
     private void Update()
     {
