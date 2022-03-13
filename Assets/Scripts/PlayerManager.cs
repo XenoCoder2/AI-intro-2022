@@ -134,9 +134,9 @@ public class PlayerManager : BaseManager
     {
         if (berryPoints >= 5)
         {
-            int chance = Random.Range(0, 3);
+            int chance = Random.Range(0, 5);
 
-            if (chance == 2 && _defence != 0)
+            if (chance >= 1 && _defence != 0)
             {
                 _aiManager.LowerDefence(1);
                 matchEvent.eventMessages = Cases.Gnarl;
@@ -169,7 +169,9 @@ public class PlayerManager : BaseManager
 
     public void IncreaseDamage(float damageIncrease)
     {
+        statusDisplay[0].gameObject.SetActive(true);
         attackDamage += (attackDamage / damageIncrease);
+        
 
     }
 
@@ -184,6 +186,7 @@ public class PlayerManager : BaseManager
         {
             attackDamage = defaultDamage;
             Debug.Log("Attack was reverted to the default value");
+            statusDisplay[0].gameObject.SetActive(false);
         }
 
     }    

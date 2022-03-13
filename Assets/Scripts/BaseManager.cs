@@ -17,6 +17,9 @@ public abstract class BaseManager : MonoBehaviour
     [Header("Health Display Text")]
     [SerializeField] protected Text _healthText;
 
+    [Header("Status Effect Display")]
+    [SerializeField] protected Image[] statusDisplay = new Image[3];
+
     [Header("Turns Until Defence Is Normal")]
     [SerializeField] protected int turnsTillNormalDefence = 6;
 
@@ -73,12 +76,20 @@ public abstract class BaseManager : MonoBehaviour
     public void LowerDefence(int defence)
     {
         _defence = Mathf.Max(_defence - defence, 0);
-        
+        statusDisplay[2].gameObject.SetActive(true);
 
     }
 
     public void NormaliseDefence()
     {
+        if (_defence > 5)
+        {
+            statusDisplay[1].gameObject.SetActive(true);
+        }
+        else
+        {
+            statusDisplay[2].gameObject.SetActive(false);
+        }
         _defence = 5;
         Debug.Log("Defence has reverted to normal");
 
@@ -106,6 +117,7 @@ public abstract class BaseManager : MonoBehaviour
 
     public void IncreaseDefence(int defenceIncrease)
     {
+        statusDisplay[1].gameObject.SetActive(true);
         _defence = Mathf.Min(_defence + defenceIncrease, 10);
     }    
 }

@@ -206,9 +206,9 @@ public class AIManager : PlayerManager
 
     public void Gnarly()
     {
-        int chance = Random.Range(0, 3);
+        int chance = Random.Range(0, 5);
 
-        if (chance == 2 && _defence != 0)
+        if (chance >= 1 && _defence != 0)
         {
             _pMan.LowerDefence(1);
             matchEvent.eventMessages = Cases.Gnarl;
