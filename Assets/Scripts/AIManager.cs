@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIManager : PlayerManager
 {
+   
     //Different States of the AI.
    public enum State
     {
@@ -17,6 +18,8 @@ public class AIManager : PlayerManager
 
     private PlayerManager _pMan;
 
+    protected Animator _charAnim;
+
     //The scenario int will help determine whos turn it is and display the correct match event.
     [Header("Scenario for Match Events")]
     public int scenario;
@@ -25,6 +28,8 @@ public class AIManager : PlayerManager
     {
         //Performs the Start actions from the inherited class.
         base.Start();
+
+       _charAnim = GameObject.FindGameObjectWithTag("AIB").GetComponent<Animator>();
 
         //Gets the PlayerManager.
         _pMan = GetComponent<PlayerManager>();
@@ -77,10 +82,11 @@ public class AIManager : PlayerManager
 
     IEnumerator TurnEnd()
     {
+        
         //Change the event message. 
         matchEvent.TextChange();
         //Pause the coroutine for 2 seconds. 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
         //Run the DefenceReturn method.
         DefenceReturn();
         //Change the scenario int to 0.
@@ -91,7 +97,8 @@ public class AIManager : PlayerManager
         _pMan.ReturnDamage();
         //Run the TakeTurn method for the player.
         _pMan.TakeTurn();
-       
+        _charAnim.SetInteger("AttackType", 0);
+
     }
 
     void FullHPState()
@@ -230,11 +237,12 @@ public class AIManager : PlayerManager
 
     void Dead()
     {
-        Debug.Log("Brungleberry defeated!");
+        Debug.Log("Blungerberry defeated!");
         //Change the event message. 
         matchEvent.eventMessages = Cases.BermonFainted;
+        matchEvent.TextChange();
         //Change the AI animation to the dead state. 
-        characterAnim.SetBool("IsDead", true);
+        _charAnim.SetBool("IsDead", true);
     }
 
     public void StealLife()
@@ -243,6 +251,7 @@ public class AIManager : PlayerManager
         float heal = Random.Range(10, 25);
         //Call the Heal method and heal AI health by the heal float. 
         Heal(heal);
+        _charAnim.SetInteger("AttackType", 3);
         //Call the DealDamage method and take away the player's health.
         _pMan.DealDamage(heal);
         //Change the event message. 
@@ -257,6 +266,7 @@ public class AIManager : PlayerManager
         float critDamage = Random.Range(0, 5);
         //Change the event message. 
         matchEvent.eventMessages = Cases.BerryThrow;
+        _charAnim.SetInteger("AttackType", 1);
         //Call the DealDamage method and add base damage plus critDamage.
         _pMan.DealDamage(15f + critDamage);
         Debug.Log(10 + critDamage + " | AI");
@@ -266,8 +276,10 @@ public class AIManager : PlayerManager
 
     public void Crunch()
     {
+        _charAnim.SetInteger("AttackType", 2);
         //Call the DealDamage method for the player 
         _pMan.DealDamage(25f);
+        
         //Change the event message.
         matchEvent.eventMessages = Cases.BerryCrunch;
         Debug.Log("Crunch was used on player");
@@ -277,6 +289,7 @@ public class AIManager : PlayerManager
 
     public void GnarlAttack()
     {
+        _charAnim.SetInteger("AttackType", 4);
         //A chance ranging from 0-4 that will determine if the attack hits.
         int chance = Random.Range(0, 5);
 

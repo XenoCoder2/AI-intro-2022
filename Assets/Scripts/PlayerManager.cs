@@ -18,7 +18,8 @@ public class PlayerManager : BaseManager
     private float defaultDamage = 15f;
     private int turnsUntilNormalDamage = 4;
     [Header("Animator")]
-    public Animator characterAnim;
+    protected Animator _characterAnim;
+    private int attackType = 0;
     [Header("Match Events for text box")]
     public MatchEvents matchEvent;
     #endregion
@@ -31,6 +32,7 @@ public class PlayerManager : BaseManager
         //Gets the AIManager. 
         _aiManager = GetComponent<AIManager>();
 
+        _characterAnim = GameObject.FindGameObjectWithTag("PlayerB").GetComponent<Animator>();
         //If no AIManager is found, log an error.
         if (_aiManager == null)
         {
@@ -62,9 +64,11 @@ public class PlayerManager : BaseManager
         //Change the event message.
         matchEvent.TextChange();
         //Pause the coroutine for 2 seconds.
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
         //Run the TakeTurn method for the AIManager.
         _aiManager.TakeTurn();
+        //Return to the Idle anim.
+        ReturnToIdle();
         //Run the DefenceReturn method.
         DefenceReturn();
         //Run the ReturnDamage method. 
@@ -74,8 +78,10 @@ public class PlayerManager : BaseManager
 
     public void DeadPlayer()
     {
+        matchEvent.eventMessages = Cases.PlayerFainted;
+        matchEvent.TextChange();
         //Change the AI animation to the dead state. 
-        characterAnim.SetBool("IsDead", true);
+        _characterAnim.SetBool("IsDead", true);
 
     }
 
@@ -100,6 +106,10 @@ public class PlayerManager : BaseManager
             Debug.Log(heal);
             //Take away 15 berryPoints.
             berryPoints -= 15;
+            //Set attackType to 3.
+            attackType = 3;
+            //Apply the value to the animator.
+            _characterAnim.SetInteger("AttackType", attackType);
             //Change the event message.
             matchEvent.eventMessages = Cases.LifeSteal;
             //Run the UpdateBP method.
@@ -132,6 +142,10 @@ public class PlayerManager : BaseManager
             berryPoints -= 5;
             //Change the event message.
             matchEvent.eventMessages = Cases.BerryThrow;
+            //Set attackType to 1.
+            attackType = 1;
+            //Apply the value to the animator.
+            _characterAnim.SetInteger("AttackType", attackType);
             //Run the UpdateBP method. 
             UpdateBP();
             //Start the EndTurn coroutine. 
@@ -158,6 +172,10 @@ public class PlayerManager : BaseManager
             berryPoints -= 10;
             //Change the event message. 
             matchEvent.eventMessages = Cases.BerryCrunch;
+            //Set attackType to 2.
+            attackType = 2;
+            //Apply the value to the animator.
+            _characterAnim.SetInteger("AttackType", attackType);
             //Run the UpdateBP method. 
             UpdateBP();
             //Start the EndTurn coroutine. 
@@ -181,6 +199,10 @@ public class PlayerManager : BaseManager
         {
             //A chance ranging from 0-4 that will determine if the attack hits.
             int chance = Random.Range(0, 5);
+            //Set attackType to 4.
+            attackType = 4;
+            //Apply the value to the animator.
+            _characterAnim.SetInteger("AttackType", attackType);
 
             //If chance is greater than 1 and defence does not equal 0, lower the defence of the AI.
             if (chance >= 1 && _defence != 0)
@@ -254,5 +276,11 @@ public class PlayerManager : BaseManager
         }
 
     }    
+
+    public void ReturnToIdle()
+    {
+        attackType = 0;
+        _characterAnim.SetInteger("AttackType", 0);
+    }
 
 }
