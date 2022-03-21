@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public abstract class BaseManager : MonoBehaviour
 {
+    #region Variables
     //Protected is basically private, but inherited classes also have access to it
     [Header("Health Values")]
     [SerializeField] protected float _health = 100;
@@ -22,14 +23,18 @@ public abstract class BaseManager : MonoBehaviour
 
     [Header("Turns Until Defence Is Normal")]
     [SerializeField] protected int turnsTillNormalDefence = 6;
+    #endregion
 
+    #region Start Method
     //Virtual allows the function to be "overridden" by child classes
     //override replaces parent class' function (must be marked virtual)
     protected virtual void Start()
     {
         UpdateHealthText();
     }
+    #endregion
 
+    #region Update Health Text Method
     public void UpdateHealthText()
     {
         if (_healthText != null)
@@ -38,11 +43,15 @@ public abstract class BaseManager : MonoBehaviour
         }
        
     }
+    #endregion
 
+    #region Abstract Take Turn Method
     //Abstract classes cannot be used, only children of abstract classes
     //Abstract function (inside an abstract class) has to be implemented by child classes
     public abstract void TakeTurn();
+    #endregion
 
+    #region Heal and Damage Methods
     public void Heal(float heal)
     {
         //If _health + heal is less than _maxHealth, increase health..
@@ -79,7 +88,9 @@ public abstract class BaseManager : MonoBehaviour
 
     }
     */
+    #endregion
 
+    #region Defence Methods
     public void LowerDefence(int defence)
     {
         //If _defence - defence is greater than 0, lower defence.
@@ -142,5 +153,6 @@ public abstract class BaseManager : MonoBehaviour
         statusDisplay[1].gameObject.SetActive(true);
         //If _defence + defenceIncrease is less than 10, increase defence. 
         _defence = Mathf.Min(_defence + defenceIncrease, 10);
-    }    
+    }
+    #endregion
 }

@@ -15,6 +15,7 @@ public class SatchelManager : MonoBehaviour
     public MatchEvents events;
     #endregion
 
+    #region Items
     public enum Item
     {
         GoldenBerry = 0,
@@ -22,9 +23,11 @@ public class SatchelManager : MonoBehaviour
         BartholomewsBerryMix = 2,
         BoysenberryPunch = 3
     }
+    
+    public Item satchelItem;
+    #endregion
 
-    public Item satchelItem; 
-
+    #region Change Button Method
     public void ChangeItem(GameObject clickedButton)
     {
         //If the last button variable is not null..
@@ -84,6 +87,8 @@ public class SatchelManager : MonoBehaviour
         
 
     }
+    #endregion
+
     #region IEnumerator Methods
     //The IEnumerators will change the description text to the appropriate item description
     IEnumerator GBerry()
@@ -116,6 +121,7 @@ public class SatchelManager : MonoBehaviour
     }
     #endregion
 
+    #region Use Method
     public void Use()
     {
         //Depending on what item was clicked, switch between the use cases
@@ -144,6 +150,7 @@ public class SatchelManager : MonoBehaviour
 
         //End the turn
         StartCoroutine(playerMan.EndTurn());
-    }    
+    }
+    #endregion
 
 }

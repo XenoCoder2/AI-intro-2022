@@ -5,19 +5,24 @@ using UnityEngine.UI;
 
 public class MatchEvents : MonoBehaviour
 {
+    #region Variables
     public Text eventText;
     public PlayerManager playMan;
     public AIManager aiMan;
 
     public Cases eventMessages;
+    #endregion
 
+    #region Start Method
     // Start is called before the first frame update
     void Start()
     {
         //When starting the battle, set the event text
         eventText.text = "A wild Blungerberry has appeared!";
     }
+    #endregion
 
+    #region Text Change Method
     public void TextChange()
     {
         //Change the event text to the current case at the end of each turn
@@ -126,8 +131,10 @@ public class MatchEvents : MonoBehaviour
                 break;
         }
     }
+    #endregion
 }
-//By placing the enum outside of the script class it will be able to be accessed by other scripts without a reference to Match Events
+#region Cases 
+//By placing the enum outside of the script class it will be able to be accessed by other scripts without a reference to Match Events.
 public enum Cases
 {
     BermonIntroduction,
@@ -146,3 +153,4 @@ public enum Cases
     MissedAttack,
     NoBP
 }
+#endregion

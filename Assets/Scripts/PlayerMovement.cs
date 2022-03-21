@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Variables
     private float speed = 5f;
     public Switch switchControl;
-    public bool inSwitch; 
+    public bool inSwitch;
+    #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    #region Update Method
     // Update is called once per frame
     void Update()
     {
         //Run the Inputs method.
         Inputs();
     }
+    #endregion
 
+    #region Inputs Method
     private void Inputs()
     {
         //Initialise moveDirection and set it to 0,0,0.
@@ -77,7 +76,9 @@ public class PlayerMovement : MonoBehaviour
         //Add the moveDirection to transform.position.
         transform.position += (Vector3)moveDirection;
     }
+    #endregion
 
+    #region Trigger Methods
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //If the tag of the trigger is equal to "Switch".
@@ -103,4 +104,5 @@ public class PlayerMovement : MonoBehaviour
             switchControl.interactText.SetActive(false);
         }
     }
+    #endregion
 }

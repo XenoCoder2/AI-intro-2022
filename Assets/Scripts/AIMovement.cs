@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIMovement : MonoBehaviour
 {
+    #region Variables
     //An array of GameObjects 
     [Tooltip("The positions the square will go to")]
     public List<Transform> waypoints;
@@ -20,27 +21,28 @@ public class AIMovement : MonoBehaviour
     //public GameObject position0, position1, player;
     public float speed = 1.5f;
     public float minGoalDistance = 0.1f;
-    private float closestWaypoint = Mathf.Infinity;
+    private float _closestWaypoint = Mathf.Infinity;
     public float chaseDistance = 3.5f;
     public bool chased = false;
     public static bool defending; 
-    private float timer = 1.5f; 
+    private float _timer = 1.5f;
+    #endregion
 
-    
+    #region Update Method
     void Update()
     {
         //If the defending bool is true.
         if (defending)
         {
             //Take away Time.deltaTime from the timer float.
-            timer -= Time.deltaTime;
+            _timer -= Time.deltaTime;
             //If the timer is less than or equal to 0.
-            if (timer <= 0)
+            if (_timer <= 0)
             {
                 //Run the NewWaypoint method.
                 NewWaypoint();
                 //Set the timer to 1.5f.
-                timer = 1.5f; 
+                _timer = 1.5f; 
             }
         }
 
@@ -77,8 +79,9 @@ public class AIMovement : MonoBehaviour
         #endregion
         */
     }
+    #endregion
 
-
+    #region Spawn New Waypoint Method
     public void NewWaypoint()
     {
         //Instantiate a new Berry Prefab.
@@ -86,7 +89,9 @@ public class AIMovement : MonoBehaviour
         //Add the newBerry gameObject to the waypoints list.
         waypoints.Add(newBerry.transform);
     }
+    #endregion
 
+    #region AI Movement Behaviour Methods
     public void AIMove(Transform goal)
     {
         //Set the vector of aiTransform to the transform.position of the AI.
@@ -155,7 +160,9 @@ public class AIMovement : MonoBehaviour
         transform.position -= 2.5f * Time.deltaTime * (Vector3)runMove; 
 
     }
+    #endregion
 
+    #region Waypoint Update Method
     //array.Length = List.Count
     public void WaypointUpdate()
     {
@@ -166,18 +173,18 @@ public class AIMovement : MonoBehaviour
         if (chased == true)
         {
             //Set the closestWaypoint to an infinite value, this will be changed in the for loop to determine the closest waypoint.
-            closestWaypoint = Mathf.Infinity;
+            _closestWaypoint = Mathf.Infinity;
             for (int i = 0; i < waypoints.Count; i++)
             {
                 //Initialise the float dist to the distance between aiTransform and the current waypoint.
                 float dist = Vector2.Distance(aiTransform, waypoints[i].position);
                 //If dist is less than closestWaypoint.
-                if (dist < closestWaypoint)
+                if (dist < _closestWaypoint)
                 {
                     //Set the waypointIndex to the current waypoint (closest).
                     waypointIndex = i;
                     //Change the closestWaypoint variable to dist.
-                    closestWaypoint = dist;
+                    _closestWaypoint = dist;
                     //Change chased to false.
                     chased = false;
                 }
@@ -206,4 +213,5 @@ public class AIMovement : MonoBehaviour
 
         }
     }
+    #endregion
 }

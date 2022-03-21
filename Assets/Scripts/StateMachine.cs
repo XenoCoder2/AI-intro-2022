@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AIMovement))]
 public class StateMachine : MonoBehaviour
 {
+    #region States
     //A comma separated list of identifiers
     public enum State
     {
@@ -15,8 +16,14 @@ public class StateMachine : MonoBehaviour
     }
 
     public State currentState;
-    public AIMovement aiMovement; 
-   
+    #endregion
+
+    #region Variables
+    public AIMovement aiMovement;
+    public StatePanel panelState;
+    #endregion
+
+    #region Start Method
     private void Start()
     {
         aiMovement = GetComponent<AIMovement>();
@@ -25,7 +32,9 @@ public class StateMachine : MonoBehaviour
 
         //Addition(Random.Range(0, 100), Random.Range(0, 100));
     }
+    #endregion
 
+    #region Next State Method
     private void NextState()
     {
         //Runs one of the cases that matches the value (in this example the value is currentState).
@@ -33,27 +42,33 @@ public class StateMachine : MonoBehaviour
         {
             //If the currentState is equal to State.Attack.
             case State.Attack:
+                panelState.UpdateStatusText("Attack");
                 //Start the AttackState coroutine.
                 StartCoroutine(AttackState());
                 break;
             //If the currentState is equal to State.Defence.
             case State.Defence:
+                panelState.UpdateStatusText("Defence");
                 //Start the DefenceState coroutine.
                 StartCoroutine(DefenceState());
                 break;
             //If the currentState is equal to State.Run.
             case State.Run:
+                panelState.UpdateStatusText("Run");
                 //Start the RunState coroutine.
                 StartCoroutine(RunState());
                 break;
             //If the currentState is equal to State.BerryPicking.
             case State.BerryPicking:
+                panelState.UpdateStatusText("Berry Picking");
                 //Start the BerryPickingState coroutine.
                 StartCoroutine(BerryPickingState());
                 break;
         }
     }
+    #endregion
 
+    #region Example Int Method (Unused) 
     /*
     private int Addition(int a, int b)
     {
@@ -63,7 +78,9 @@ public class StateMachine : MonoBehaviour
        
     }
     */
+    #endregion
 
+    #region Update Method
     private void Update()
     {
         //If chased is equal to true.
@@ -78,7 +95,9 @@ public class StateMachine : MonoBehaviour
             aiMovement.sRender.color =  aiMovement.aiColour2;
         }
     }
+    #endregion
 
+    #region AI States
     //Coroutine is a special method that can be paused and returned to later
     private IEnumerator AttackState()
     {
@@ -233,5 +252,5 @@ public class StateMachine : MonoBehaviour
         //Run the NextState method.
         NextState();
     }
+    #endregion
 }
-    

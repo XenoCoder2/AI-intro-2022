@@ -8,9 +8,8 @@ public class PlayerManager : BaseManager
     #region Variables
     [Header("AI Manager")]
     protected AIManager _aiManager;
-    protected int berryPoints = 50;
-    [Header("Berry Points Text | Leave blank for AI Manager")]
-    public Text _bpText;
+    private int berryPoints = 50;
+    private Text _bpText;
     [Header("Canvas Group")]
     [SerializeField] protected CanvasGroup _canGroup;
     [Header("Attack Values")]
@@ -22,8 +21,11 @@ public class PlayerManager : BaseManager
     private int attackType = 0;
     [Header("Match Events for text box")]
     public MatchEvents matchEvent;
+    [Header("StartCombat | Reload Scene")]
+    public StartCombat startCom;
     #endregion
 
+    #region Start Method
     protected override void Start()
     {
         //Performs the Start actions from the inherited class.
@@ -32,6 +34,8 @@ public class PlayerManager : BaseManager
         //Gets the AIManager. 
         _aiManager = GetComponent<AIManager>();
 
+        _bpText = GameObject.FindGameObjectWithTag("BerryPoints").GetComponent<Text>();
+
         _characterAnim = GameObject.FindGameObjectWithTag("PlayerB").GetComponent<Animator>();
         //If no AIManager is found, log an error.
         if (_aiManager == null)
@@ -39,7 +43,9 @@ public class PlayerManager : BaseManager
             Debug.LogError("No AIManager Found!");
         }
     }
+    #endregion
 
+    #region Start and End Turn Methods
     public override void TakeTurn()
     {
         //If _health is greater than 0.
@@ -52,7 +58,8 @@ public class PlayerManager : BaseManager
         else
         {
             //Run the DeadPlayer method. 
-            DeadPlayer();
+            StartCoroutine(DeadPlayer());
+           
         }
         
     }
@@ -73,18 +80,30 @@ public class PlayerManager : BaseManager
         DefenceReturn();
         //Run the ReturnDamage method. 
         ReturnDamage();
+        //Change the state text.
+        _aiManager.states.EndTurnUpdate();
        
     }
+    #endregion
 
-    public void DeadPlayer()
+    #region Dead Player Coroutine
+    public IEnumerator DeadPlayer()
     {
+        //Change the event message.
         matchEvent.eventMessages = Cases.PlayerFainted;
+        //Reload the event text.
         matchEvent.TextChange();
         //Change the AI animation to the dead state. 
         _characterAnim.SetBool("IsDead", true);
+        //Wait for two seconds.
+        yield return new WaitForSecondsRealtime(2f);
+        //Reload the scene.
+        startCom.ReloadScene();
 
     }
+    #endregion
 
+    #region Berry Points (BP) Methods
     private void UpdateBP()
     {
         //Change the Berry Points text to the value of the berryPoints variable.
@@ -92,6 +111,16 @@ public class PlayerManager : BaseManager
 
     }
 
+    public void RecoverBP(int bpAmount)
+    {
+        //If berryPoints + bpAmount is less than 50, increase berryPoints.
+        berryPoints = Mathf.Min(berryPoints + bpAmount, 50);
+        //Run the UpdateBP method.
+        UpdateBP();
+    }
+    #endregion
+
+    #region Abilities
     public void LifeSteal()
     {
         //If berryPoitns is greater than or equal to 15.. 
@@ -237,15 +266,9 @@ public class PlayerManager : BaseManager
       
 
     }
+    #endregion
 
-    public void RecoverBP(int bpAmount)
-    {
-        //If berryPoints + bpAmount is less than 50, increase berryPoints.
-        berryPoints = Mathf.Min(berryPoints + bpAmount, 50);
-        //Run the UpdateBP method.
-        UpdateBP();
-    }
-
+    #region Damage Modifier Methods
     public void IncreaseDamage(float damageIncrease)
     {
         //Display the status effect.
@@ -275,12 +298,17 @@ public class PlayerManager : BaseManager
             statusDisplay[0].gameObject.SetActive(false);
         }
 
-    }    
+    }
+    #endregion
 
+    #region Animator Methods
     public void ReturnToIdle()
     {
+        //Change the attackType to 0 (idle state).
         attackType = 0;
-        _characterAnim.SetInteger("AttackType", 0);
+        //Apply this value to the animator.
+        _characterAnim.SetInteger("AttackType", attackType);
     }
+    #endregion
 
 }

@@ -9,6 +9,9 @@ TagManager:
   - AI
   - PlayerB
   - AIB
+  - Waypoint
+  - CombatManager
+  - BerryPoints
   layers:
   - Default
   - TransparentFX
