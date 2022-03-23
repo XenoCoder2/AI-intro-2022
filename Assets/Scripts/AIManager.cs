@@ -211,8 +211,6 @@ public class AIManager : PlayerManager
             _aiManager.states.EndTurnUpdate();
             //Change the AI state to FullHP.
             currentState = State.FullHP;
-            //Run the FullHPState method.
-            //FullHPState();
             return;
         }
         //If AI health is less than 40.
@@ -222,8 +220,6 @@ public class AIManager : PlayerManager
             _aiManager.states.EndTurnUpdate();
             //Change the AI state to LowHP.
             currentState = State.LowHP;
-            //Run the LowHPState.
-            //LowHPState();
             return;
         }
 
@@ -267,8 +263,6 @@ public class AIManager : PlayerManager
             _aiManager.states.EndTurnUpdate();
             //Change the AI state to its Damaged behaviour.
             currentState = State.Damaged;
-            //Activate the DamagedState method.
-            //DamagedState();
             return;
         }
 
