@@ -80,23 +80,6 @@ public class StateMachine : MonoBehaviour
     */
     #endregion
 
-    #region Update Method
-    private void Update()
-    {
-        //If chased is equal to true.
-        if (aiMovement.chased)
-        {
-            //Change the AIs colour to aiColour.
-            aiMovement.sRender.color = aiMovement.aiColour;
-        }
-        else
-        {
-            //Change the AIs colour to aiColour2.
-            aiMovement.sRender.color =  aiMovement.aiColour2;
-        }
-    }
-    #endregion
-
     #region AI States
     //Coroutine is a special method that can be paused and returned to later
     private IEnumerator AttackState()
@@ -116,7 +99,9 @@ public class StateMachine : MonoBehaviour
             aiMovement.AIMove(aiMovement.player);
             //Change the chased value to true.
             aiMovement.chased = true;
-            
+            //Change the AIs colour to aiColour.
+            aiMovement.sRender.color = aiMovement.aiColour;
+
             //If the player's distance is further than the chase distance.
             if (Vector2.Distance(transform.position, aiMovement.player.position) >= aiMovement.chaseDistance)
             {
@@ -144,6 +129,10 @@ public class StateMachine : MonoBehaviour
         //Change the defending bool to true.
         AIMovement.defending = true;
         //Whilst the currentState is equal to State.Defence.
+        
+        //Change the AIs colour to aiColour2.
+        aiMovement.sRender.color = aiMovement.aiColour2;
+
         while (currentState == State.Defence)
         {
             //The AI should move away from the player when the player is close. 
@@ -179,9 +168,13 @@ public class StateMachine : MonoBehaviour
         //Whilst the currentState is equal to State.Run.
         while (currentState == State.Run)
         {
+            //Change the AIs colour to aiColour2.
+            aiMovement.sRender.color = aiMovement.aiColour2;
+
             //If the switch is not active.
             if (!Switch.active)
             {
+                
                 //If waypoints.Count is greater than or equal to 1.
                 if (aiMovement.waypoints.Count >= 1)
                 {
@@ -196,8 +189,14 @@ public class StateMachine : MonoBehaviour
                 
             }
 
+            //Enable the chasing berry.
+            if (aiMovement.enemyBerry.gameObject.activeInHierarchy == false)
+            {
+                aiMovement.enemyBerry.gameObject.SetActive(true);
+            }
+
             //Move the AI away from the player.
-            aiMovement.AIRun(aiMovement.player.transform);
+            aiMovement.AIRun(aiMovement.enemyBerry.transform);
 
             //Return a null value.
             yield return null;
@@ -211,6 +210,8 @@ public class StateMachine : MonoBehaviour
    
     private IEnumerator BerryPickingState()
     {
+        //Change the AIs colour to aiColour2.
+        aiMovement.sRender.color = aiMovement.aiColour2;
         Debug.Log("Berry Picking: Enter");
         //Once every frame, similar to update function
         while (currentState == State.BerryPicking)

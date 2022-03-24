@@ -1010,7 +1010,7 @@ GameObject:
   - component: {fileID: 125026385}
   m_Layer: 0
   m_Name: Boundaries
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1315,6 +1315,103 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 216461206}
   m_CullTransparentMesh: 1
+--- !u!1 &327909620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327909622}
+  - component: {fileID: 327909621}
+  - component: {fileID: 327909623}
+  m_Layer: 0
+  m_Name: Wranglerberry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!212 &327909621
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327909620}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -6187256663537313248, guid: 18b73709a70f9dd4198a2c8f97e7aa3c, type: 3}
+  m_Color: {r: 0.28773582, g: 1, b: 0.5483409, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.87774295, y: 0.56426334}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &327909622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327909620}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.46, y: -5.44, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &327909623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327909620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12df17a6e5d7774aa0e40c2b8fc088e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnWaypoint: {fileID: 1386265101}
+  chaseTarget: {fileID: 1876639682}
 --- !u!1 &327927579
 GameObject:
   m_ObjectHideFlags: 0
@@ -3879,7 +3976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 2, y: -2}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &1056043133
 MonoBehaviour:
@@ -3914,7 +4011,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press F to Interact
+  m_Text: Press F to Unleash the Wranglerberry
 --- !u!222 &1056043134
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6234,6 +6331,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382887346}
   m_CullTransparentMesh: 1
+--- !u!1 &1386265100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1386265101}
+  m_Layer: 0
+  m_Name: WranglerberrySpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1386265101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386265100}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.46, y: -5.44, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1432767061
 GameObject:
   m_ObjectHideFlags: 0
@@ -7788,6 +7915,32 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5936318271313321072, guid: ba2b282a9b32b5447994189dc5948a55, type: 3}
   m_PrefabInstance: {fileID: 5936318272811148236}
   m_PrefabAsset: {fileID: 0}
+--- !u!50 &1876639677
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876639676}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!4 &1876639682 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5936318271313321075, guid: ba2b282a9b32b5447994189dc5948a55, type: 3}
+  m_PrefabInstance: {fileID: 5936318272811148236}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1923351125
 GameObject:
   m_ObjectHideFlags: 0
@@ -8525,12 +8678,16 @@ PrefabInstance:
       objectReference: {fileID: 672038269}
     - target: {fileID: 5936318271313321072, guid: ba2b282a9b32b5447994189dc5948a55, type: 3}
       propertyPath: m_Name
-      value: Rob
+      value: Blungerberry
       objectReference: {fileID: 0}
     - target: {fileID: 5936318271313321073, guid: ba2b282a9b32b5447994189dc5948a55, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1191466320}
+    - target: {fileID: 5936318271313321073, guid: ba2b282a9b32b5447994189dc5948a55, type: 3}
+      propertyPath: enemyBerry
+      value: 
+      objectReference: {fileID: 327909622}
     - target: {fileID: 5936318271313321073, guid: ba2b282a9b32b5447994189dc5948a55, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 

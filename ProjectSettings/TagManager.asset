@@ -12,6 +12,7 @@ TagManager:
   - Waypoint
   - CombatManager
   - BerryPoints
+  - Boundary
   layers:
   - Default
   - TransparentFX

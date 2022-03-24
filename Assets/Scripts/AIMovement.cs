@@ -9,6 +9,7 @@ public class AIMovement : MonoBehaviour
     [Tooltip("The positions the square will go to")]
     public List<Transform> waypoints;
     public Transform player;
+    public Transform enemyBerry;
     public GameObject waypointPrefab; 
     [Header("Colours")]
     public Color aiColour;
@@ -21,11 +22,13 @@ public class AIMovement : MonoBehaviour
     //public GameObject position0, position1, player;
     public float speed = 1.5f;
     public float minGoalDistance = 0.1f;
-    private float _closestWaypoint = Mathf.Infinity;
     public float chaseDistance = 3.5f;
     public bool chased = false;
-    public static bool defending; 
+    public static bool defending;
+    #endregion
+    #region Private Variables
     private float _timer = 1.5f;
+    private float _closestWaypoint = Mathf.Infinity;
     #endregion
 
     #region Update Method
@@ -157,7 +160,7 @@ public class AIMovement : MonoBehaviour
         //Normalise the runMove variable.
         runMove.Normalize();
         //Move the AI in a direction away from the player.
-        transform.position -= 2.5f * Time.deltaTime * (Vector3)runMove; 
+        transform.position -= 1.5f * Time.deltaTime * (Vector3)runMove; 
 
     }
     #endregion
@@ -214,4 +217,5 @@ public class AIMovement : MonoBehaviour
         }
     }
     #endregion
+
 }
