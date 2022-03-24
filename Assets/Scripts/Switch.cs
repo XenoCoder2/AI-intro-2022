@@ -16,6 +16,7 @@ public class Switch : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //Get the Animator component from the switch.
         switchAnim = GetComponent<Animator>();
     }
     #endregion
