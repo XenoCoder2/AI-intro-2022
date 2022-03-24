@@ -15,7 +15,7 @@ public class PlayerManager : BaseManager
     [Header("Attack Values")]
     private float attackDamage = 15f;
     private float defaultDamage = 15f;
-    private int turnsUntilNormalDamage = 4;
+    private int turnsUntilNormalDamage = 5;
     [Header("Animator")]
     protected Animator _characterAnim;
     private int attackType = 0;
@@ -293,6 +293,8 @@ public class PlayerManager : BaseManager
         {
             //Revert attackDamage to defaultDamage values.
             attackDamage = defaultDamage;
+            //Revert turnsUntilNormalDamage to default values.
+            turnsUntilNormalDamage = 5;
             Debug.Log("Attack was reverted to the default value");
             //Stop displaying the status effect.
             statusDisplay[0].gameObject.SetActive(false);

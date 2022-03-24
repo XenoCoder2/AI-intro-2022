@@ -131,12 +131,12 @@ public abstract class BaseManager : MonoBehaviour
         //If turnsTillNormalDefence is less than or equal to 0..
         if (turnsTillNormalDefence <= 0)
         {
-            if (_defence <= 4)
+            if (_defence <= 4 || _defence == 5)
             {
                 //Disable the defence down status effect.
                 statusDisplay[2].gameObject.SetActive(false);
             }
-            else if (_defence >= 6)
+            else if (_defence >= 6 || _defence == 5)
             {
                 //Disable the defence up status effect.
                 statusDisplay[1].gameObject.SetActive(false);
@@ -150,9 +150,7 @@ public abstract class BaseManager : MonoBehaviour
         //If _defence is greater than 5.
         if (_defence > 5)
         {
-            //Increase turnsTillNormalDefence to 4.
-            turnsTillNormalDefence = 4;
-            //Take away 1 from turnsTillNormalDefence (This is so that there is an extra turn with increased defence). 
+            //Take away 1 from turnsTillNormalDefence. 
             turnsTillNormalDefence--;
         }
     }
